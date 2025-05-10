@@ -1,0 +1,37 @@
+{% extends "tasks/admin/base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Create New Task</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label>Title*</label>
+            <input type="text" name="title" required class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label>Description*</label>
+            <textarea name="description" rows="3" required class="form-control"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Assign To*</label>
+            <select name="assigned_to" required class="form-control">
+                {% for user in users %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>Due Date*</label>
+            <input type="date" name="due_date" required class="form-control">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Create Task</button>
+        <a href="{% url 'admin-task-list' %}" class="btn">Cancel</a>
+    </form>
+</div>
+{% endblock %}

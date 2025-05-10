@@ -1,0 +1,43 @@
+{% extends "tasks/admin/base.html" %}
+
+{% block content %}
+    <div class="card">
+        <h2>Tasks</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Assigned To</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.assigned_to.username }}</td>
+                    <td>{{ task.due_date }}</td>
+                    <td>{{ task.get_status_display }}</td>
+                    <td>
+                        <a href="{% url 'admin-task-detail' task.id %}" class="btn">View</a>
+                        {% if request.user.is_superadmin or request.user == task.assigned_to.assigned_admin %}
+                            <a href="#" class="btn btn-primary">Edit</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div style="margin-top: 20px;">
+    <a href="{% url 'admin-task-create' %}" class="btn btn-primary">
+        Create New Task
+    </a>
+</div>
+        
+        
+    </div>
+{% endblock %}
